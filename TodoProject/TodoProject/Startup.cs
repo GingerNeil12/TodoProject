@@ -119,7 +119,7 @@ namespace TodoProject
             services.AddAuthorization();
 
             // Database
-            services.AddSingleton<IUnitOfWork, UnitOfWork>();
+            services.AddTransient<IUnitOfWork, UnitOfWork>();
 
             // Services
             services.AddTransient<IEmailGateway, SendGridEmailGateway>();
