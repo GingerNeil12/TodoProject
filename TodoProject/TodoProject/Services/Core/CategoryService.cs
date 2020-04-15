@@ -12,6 +12,7 @@ namespace TodoProject.Services.Core
     public class CategoryService : ICategoryService
     {
         private const string NAME_PROPERTY = nameof(CreateCategoryModel.Name);
+        private const string CATEGORYID_PROPERTY = nameof(Category.Id);
 
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<CategoryService> _logger;
@@ -40,6 +41,7 @@ namespace TodoProject.Services.Core
             {
                 _unitOfWork.CategoryRespository.Create(category);
                 _unitOfWork.SaveChangeAsync().Wait();
+                modelState.AddModelError(CATEGORYID_PROPERTY, category.Id.ToString());
                 return modelState;
             }
             catch (Exception ex)

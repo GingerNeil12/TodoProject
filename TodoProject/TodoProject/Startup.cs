@@ -14,19 +14,23 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using TodoProject.Commands.Account;
+using TodoProject.Commands.Core;
 using TodoProject.Commands.Security;
 using TodoProject.Data;
 using TodoProject.General;
 using TodoProject.Interfaces.Account;
+using TodoProject.Interfaces.Core;
 using TodoProject.Interfaces.Database;
 using TodoProject.Interfaces.General;
 using TodoProject.Interfaces.Security;
 using TodoProject.Models;
 using TodoProject.ResponseModels;
 using TodoProject.Services.Account;
+using TodoProject.Services.Core;
 using TodoProject.Services.General;
 using TodoProject.Services.Security;
 using TodoProject.ViewModels.Account;
+using TodoProject.ViewModels.Category;
 using TodoProject.ViewModels.Security;
 
 namespace TodoProject
@@ -125,14 +129,22 @@ namespace TodoProject
             services.AddTransient<IPasswordService, PasswordService>();
             services.AddTransient<IUserService, UserService>();
 
-            // Commands
+            // Core Services
+            services.AddTransient<ICategoryService, CategoryService>();
+
+            // Security Commands
             services.AddTransient<ICommand<LoginModel>, LoginCommand>();
             services.AddTransient<ICommand<RefreshTokenModel>, RefreshTokenCommand>();
             services.AddTransient<ICommand<ChangePasswordModel>, ChangePasswordCommand>();
             services.AddTransient<ICommand<ResetPasswordRequestModel>, ResetPasswordRequestCommand>();
             services.AddTransient<ICommand<ResetPasswordModel>, ResetPasswordCommand>();
+
+            // Account Commands
             services.AddTransient<ICommand<RegisterModel>, RegisterCommand>();
             services.AddTransient<ICommand<UpdateAccountModel>, UpdateAccountCommand>();
+
+            // Core Commands
+            services.AddTransient<ICommand<CreateCategoryModel>, CreateCategoryCommand>();
 
             services.AddControllers()
                 .ConfigureApiBehaviorOptions(options =>
