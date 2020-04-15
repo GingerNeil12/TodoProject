@@ -18,12 +18,14 @@ using TodoProject.Commands.Security;
 using TodoProject.Data;
 using TodoProject.General;
 using TodoProject.Interfaces.Account;
+using TodoProject.Interfaces.Core;
 using TodoProject.Interfaces.Database;
 using TodoProject.Interfaces.General;
 using TodoProject.Interfaces.Security;
 using TodoProject.Models;
 using TodoProject.ResponseModels;
 using TodoProject.Services.Account;
+using TodoProject.Services.Core;
 using TodoProject.Services.General;
 using TodoProject.Services.Security;
 using TodoProject.ViewModels.Account;
@@ -124,6 +126,9 @@ namespace TodoProject
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IPasswordService, PasswordService>();
             services.AddTransient<IUserService, UserService>();
+
+            // Core Services
+            services.AddTransient<ICategoryService, CategoryService>();
 
             // Security Commands
             services.AddTransient<ICommand<LoginModel>, LoginCommand>();
