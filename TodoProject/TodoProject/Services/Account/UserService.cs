@@ -1,8 +1,9 @@
-﻿using Microsoft.AspNetCore.Identity;
+﻿using System.Threading.Tasks;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
-using System.Threading.Tasks;
 using TodoProject.General;
+using TodoProject.Helpers;
 using TodoProject.Interfaces.Account;
 using TodoProject.Interfaces.General;
 using TodoProject.Models;
@@ -47,15 +48,15 @@ namespace TodoProject.Services.Account
                 return modelState;
             }
 
-            model.FirstName = CapitaliseFirstLetter(model.FirstName);
-            model.Surname = CapitaliseFirstLetter(model.Surname);
+            var firstName = model.FirstName.CapitalizeFirstLetter();
+            var surname = model.Surname.CapitalizeFirstLetter();
 
             user = new ApplicationUser()
             {
                 Email = model.Email,
-                FirstName = model.FirstName,
-                Surname = model.Surname,
-                UserName = $"{model.FirstName[0]}{model.Surname}"
+                FirstName = firstName,
+                Surname = surname,
+                UserName = $"{firstName[0]}{surname}"
             };
 
             var accountCreated = await _userManager.CreateAsync(user, model.Password);
@@ -87,7 +88,7 @@ namespace TodoProject.Services.Account
             }
 
             var addToRoleResult = await _userManager.AddToRoleAsync(user, RoleNames.USER);
-            if(!addToRoleResult.Succeeded)
+            if (!addToRoleResult.Succeeded)
             {
                 _logger.LogError($"Error adding user to role: {model.Email}");
                 _userManager.DeleteAsync(user).Wait();
@@ -109,26 +110,27 @@ namespace TodoProject.Services.Account
             var modelState = new ModelStateDictionary();
 
             var user = await _userManager.FindByIdAsync(model.UserId);
-            if(user == null)
+            if (user == null)
             {
                 _logger.LogError($"User not found: {model.UserId}");
                 modelState.AddModelError(USERID_PROPERTY, "User not found.");
                 return modelState;
             }
 
-            model.FirstName = CapitaliseFirstLetter(model.FirstName);
-            model.Surname = CapitaliseFirstLetter(model.Surname);
+            var firstName = model.FirstName.CapitalizeFirstLetter();
+            var surname = model.Surname.CapitalizeFirstLetter();
 
-            user.FirstName = model.FirstName;
-            user.Surname = model.Surname;
+            user.FirstName = firstName;
+            user.Surname = surname;
+            user.UserName = $"{firstName[0]}{surname}";
 
             var accountUpdateResult = await _userManager.UpdateAsync(user);
 
-            if(!accountUpdateResult.Succeeded)
+            if (!accountUpdateResult.Succeeded)
             {
                 foreach (var error in accountUpdateResult.Errors)
                 {
-                    switch(error.Code)
+                    switch (error.Code)
                     {
                         default:
                             modelState.AddModelError(FIRSTNAME_PROPERTY, error.Description);
@@ -146,11 +148,6 @@ namespace TodoProject.Services.Account
 
             _logger.LogInformation($"Account Updated: {model.UserId}");
             return modelState;
-        }
-
-        private string CapitaliseFirstLetter(string name)
-        {
-            return char.ToUpper(name[0]) + name.Substring(1);
         }
     }
 }
