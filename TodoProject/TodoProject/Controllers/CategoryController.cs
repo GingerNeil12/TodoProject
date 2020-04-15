@@ -13,10 +13,13 @@ namespace TodoProject.Controllers
     public class CategoryController : ApplicationController
     {
         private readonly ICommand<CreateCategoryModel> _createCategoryCommand;
+        private readonly ICommand<UpdateCategoryModel> _updateCategoryCommand;
 
-        public CategoryController(ICommand<CreateCategoryModel> createCategoryCommand)
+        public CategoryController(ICommand<CreateCategoryModel> createCategoryCommand, 
+            ICommand<UpdateCategoryModel> updateCategoryCommand)
         {
             _createCategoryCommand = createCategoryCommand;
+            _updateCategoryCommand = updateCategoryCommand;
         }
 
         [HttpPost]
@@ -33,6 +36,25 @@ namespace TodoProject.Controllers
             if (ModelState.IsValid)
             {
                 var result = await _createCategoryCommand.RunAsync(model);
+                return StatusCode(result.Status, result.Payload);
+            }
+            return new BadRequestObjectResult(new BadRequestResponse(ModelState));
+        }
+
+        [HttpPut]
+        [Route("update/{id}")]
+        [Authorize(Roles = RoleNames.ADMIN)]
+        public async Task<IActionResult> UpdateCategoryAsync(int id, UpdateCategoryModel model)
+        {
+            if(GetUserId() != model.UserId || id != model.CategoryId)
+            {
+                var forbidden = new ForbiddenResponse();
+                return StatusCode(forbidden.Status, forbidden);
+            }
+
+            if(ModelState.IsValid)
+            {
+                var result = await _updateCategoryCommand.RunAsync(model);
                 return StatusCode(result.Status, result.Payload);
             }
             return new BadRequestObjectResult(new BadRequestResponse(ModelState));

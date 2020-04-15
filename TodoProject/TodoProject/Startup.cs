@@ -149,6 +149,7 @@ namespace TodoProject
 
             // Core Commands
             services.AddTransient<ICommand<CreateCategoryModel>, CreateCategoryCommand>();
+            services.AddTransient<ICommand<UpdateCategoryModel>, UpdateCategoryCommand>();
 
             services.AddControllers()
                 .ConfigureApiBehaviorOptions(options =>
