@@ -14,6 +14,7 @@ using System.Net;
 using System.Text;
 using System.Threading.Tasks;
 using TodoProject.Commands.Account;
+using TodoProject.Commands.Core;
 using TodoProject.Commands.Security;
 using TodoProject.Data;
 using TodoProject.General;
@@ -29,6 +30,7 @@ using TodoProject.Services.Core;
 using TodoProject.Services.General;
 using TodoProject.Services.Security;
 using TodoProject.ViewModels.Account;
+using TodoProject.ViewModels.Category;
 using TodoProject.ViewModels.Security;
 
 namespace TodoProject
@@ -140,6 +142,9 @@ namespace TodoProject
             // Account Commands
             services.AddTransient<ICommand<RegisterModel>, RegisterCommand>();
             services.AddTransient<ICommand<UpdateAccountModel>, UpdateAccountCommand>();
+
+            // Core Commands
+            services.AddTransient<ICommand<CreateCategoryModel>, CreateCategoryCommand>();
 
             services.AddControllers()
                 .ConfigureApiBehaviorOptions(options =>
