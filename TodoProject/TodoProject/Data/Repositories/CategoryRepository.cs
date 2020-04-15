@@ -1,4 +1,5 @@
-﻿using TodoProject.Interfaces.Database.Repositories;
+﻿using System.Linq;
+using TodoProject.Interfaces.Database.Repositories;
 using TodoProject.Models;
 
 namespace TodoProject.Data.Repositories
@@ -12,7 +13,11 @@ namespace TodoProject.Data.Repositories
 
         public bool DoesCategoryExistAlready(string name)
         {
-            throw new System.NotImplementedException();
+            name = name.ToUpper();
+            var category = Set
+                .Where(x => x.Name.ToUpper().Equals(name))
+                .FirstOrDefault();
+            return category != null;
         }
     }
 }
