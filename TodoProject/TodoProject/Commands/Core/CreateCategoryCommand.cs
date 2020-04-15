@@ -8,7 +8,7 @@ namespace TodoProject.Commands.Core
 {
     public class CreateCategoryCommand : BaseCommand, ICommand<CreateCategoryModel>
     {
-        private const int CREATE_ERROR_CODE = -1;
+        private const int ERROR_CODE = -1;
 
         private readonly ICategoryService _categoryService;
 
@@ -19,8 +19,8 @@ namespace TodoProject.Commands.Core
 
         public async Task<ResponseMessage> RunAsync(CreateCategoryModel model)
         {
-            var createCategoryResult = await _categoryService.Create(model);
-            if (createCategoryResult == CREATE_ERROR_CODE)
+            var createCategoryResult = await _categoryService.CreateAsync(model);
+            if (createCategoryResult == ERROR_CODE)
             {
                 return BadRequestResponse(_categoryService.ValidationErrors);
             }

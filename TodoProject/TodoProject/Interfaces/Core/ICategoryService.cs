@@ -6,7 +6,8 @@ namespace TodoProject.Interfaces.Core
 {
     public interface ICategoryService
     {
-        Task<int> Create(CreateCategoryModel model);
+        Task<int> CreateAsync(CreateCategoryModel model);
+        Task<int> UpdateAsync(UpdateCategoryModel model);
         ModelStateDictionary ValidationErrors { get; }
     }
 }

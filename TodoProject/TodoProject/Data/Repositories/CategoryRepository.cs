@@ -1,4 +1,6 @@
 ﻿using System.Linq;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 using TodoProject.Interfaces.Database.Repositories;
 using TodoProject.Models;
 
@@ -11,13 +13,27 @@ namespace TodoProject.Data.Repositories
         {
         }
 
-        public bool DoesCategoryExistAlready(string name)
+        public async Task<bool> DoesCategoryExistAlready(string name)
+        {
+            var category = await GetByNameAsync(name);
+            return category != null;
+        }
+
+        public async Task<Category> GetByNameAsync(string name)
         {
             name = name.ToUpper();
-            var category = Set
+            var category = await Set
                 .Where(x => x.Name.ToUpper().Equals(name))
-                .FirstOrDefault();
-            return category != null;
+                .FirstOrDefaultAsync();
+            return category;
+        }
+
+        public async Task<Category> GetByIdAsync(int id)
+        {
+            var category = await Set
+                .Where(x => x.Id.Equals(id))
+                .FirstOrDefaultAsync();
+            return category;
         }
     }
 }
