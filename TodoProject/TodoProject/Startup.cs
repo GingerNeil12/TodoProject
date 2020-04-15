@@ -18,6 +18,7 @@ using TodoProject.Commands.Security;
 using TodoProject.Data;
 using TodoProject.General;
 using TodoProject.Interfaces.Account;
+using TodoProject.Interfaces.Database;
 using TodoProject.Interfaces.General;
 using TodoProject.Interfaces.Security;
 using TodoProject.Models;
@@ -129,6 +130,9 @@ namespace TodoProject
             services.AddTransient<ICommand<ResetPasswordModel>, ResetPasswordCommand>();
             services.AddTransient<ICommand<RegisterModel>, RegisterCommand>();
             services.AddTransient<ICommand<UpdateAccountModel>, UpdateAccountCommand>();
+
+            // Database
+            services.AddSingleton<IUnitOfWork, UnitOfWork>();
 
             services.AddControllers()
                 .ConfigureApiBehaviorOptions(options =>
