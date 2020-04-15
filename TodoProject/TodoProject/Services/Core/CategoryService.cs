@@ -1,19 +1,14 @@
-﻿using System;
-using Microsoft.AspNetCore.Mvc.ModelBinding;
+﻿using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Logging;
-using TodoProject.Helpers;
+using System;
 using TodoProject.Interfaces.Core;
 using TodoProject.Interfaces.Database;
-using TodoProject.Models;
 using TodoProject.ViewModels.Category;
 
 namespace TodoProject.Services.Core
 {
     public class CategoryService : ICategoryService
     {
-        private const string NAME_PROPERTY = nameof(CreateCategoryModel.Name);
-        private const string CATEGORYID_PROPERTY = nameof(Category.Id);
-
         private readonly IUnitOfWork _unitOfWork;
         private readonly ILogger<CategoryService> _logger;
 
@@ -24,34 +19,12 @@ namespace TodoProject.Services.Core
             _logger = logger;
         }
 
-        public ModelStateDictionary Create(CreateCategoryModel model)
+        public ModelStateDictionary ValidationErrors { get; private set; }
+
+        public int Create(CreateCategoryModel model)
         {
             _logger.LogInformation($"Creating Category: {model.Name}");
-
-            var modelState = new ModelStateDictionary();
-
-            // Check to see if the Category exists
-
-            var category = new Category()
-            {
-                Name = model.Name.CapitalizeFirstLetter()
-            };
-
-            try
-            {
-                _unitOfWork.CategoryRespository.Create(category);
-                _unitOfWork.SaveChangeAsync().Wait();
-                modelState.AddModelError(CATEGORYID_PROPERTY, category.Id.ToString());
-                return modelState;
-            }
-            catch (Exception ex)
-            {
-                _logger.LogWarning($"Error Creating Category: {model.Name} " +
-                    $"|| {ex.Message} " +
-                    $"|| {ex.StackTrace}");
-
-                throw new Exception("Create Category", ex);
-            }
+            throw new NotImplementedException();
         }
     }
 }

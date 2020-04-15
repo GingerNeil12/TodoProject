@@ -5,6 +5,7 @@ namespace TodoProject.Interfaces.Core
 {
     public interface ICategoryService
     {
-        ModelStateDictionary Create(CreateCategoryModel model);
+        int Create(CreateCategoryModel model);
+        ModelStateDictionary ValidationErrors { get; }
     }
 }

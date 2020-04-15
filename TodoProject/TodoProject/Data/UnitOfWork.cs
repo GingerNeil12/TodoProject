@@ -2,7 +2,6 @@
 using TodoProject.Data.Repositories;
 using TodoProject.Interfaces.Database;
 using TodoProject.Interfaces.Database.Repositories;
-using TodoProject.Models;
 
 namespace TodoProject.Data
 {
@@ -10,9 +9,9 @@ namespace TodoProject.Data
     {
         private readonly ApplicationDbContext _context;
 
-        private IRepository<Category> _categoryRepository;
+        private ICategoryRespository _categoryRepository;
 
-        public IRepository<Category> CategoryRespository
+        public ICategoryRespository CategoryRespository
         {
             get
             {

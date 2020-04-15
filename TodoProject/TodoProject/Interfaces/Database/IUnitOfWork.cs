@@ -7,7 +7,7 @@ namespace TodoProject.Interfaces.Database
 {
     public interface IUnitOfWork : IDisposable
     {
-        IRepository<Category> CategoryRespository { get; }
+        ICategoryRespository CategoryRespository { get; }
         Task<int> SaveChangeAsync();
     }
 }
