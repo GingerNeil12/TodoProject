@@ -114,6 +114,9 @@ namespace TodoProject
 
             services.AddAuthorization();
 
+            // Database
+            services.AddSingleton<IUnitOfWork, UnitOfWork>();
+
             // Services
             services.AddTransient<IEmailGateway, SendGridEmailGateway>();
             services.AddTransient<ITokenService, TokenService>();
@@ -130,9 +133,6 @@ namespace TodoProject
             services.AddTransient<ICommand<ResetPasswordModel>, ResetPasswordCommand>();
             services.AddTransient<ICommand<RegisterModel>, RegisterCommand>();
             services.AddTransient<ICommand<UpdateAccountModel>, UpdateAccountCommand>();
-
-            // Database
-            services.AddSingleton<IUnitOfWork, UnitOfWork>();
 
             services.AddControllers()
                 .ConfigureApiBehaviorOptions(options =>
