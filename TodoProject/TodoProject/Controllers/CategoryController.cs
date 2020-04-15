@@ -24,6 +24,12 @@ namespace TodoProject.Controllers
         [Authorize(Roles = RoleNames.ADMIN)]
         public async Task<IActionResult> CreateCategoryAsync(CreateCategoryModel model)
         {
+            if(GetUserId() != model.UserId)
+            {
+                var forbidden = new ForbiddenResponse();
+                return StatusCode(forbidden.Status, forbidden);
+            }
+
             if (ModelState.IsValid)
             {
                 var result = await _createCategoryCommand.RunAsync(model);

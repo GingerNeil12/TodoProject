@@ -92,7 +92,7 @@ namespace TodoProject
                             if (context.Exception is SecurityTokenExpiredException)
                             {
                                 context.Response.Headers.Add("Refresh_Token", "true");
-                                response = new UnauthorizedResponse("Refresh Token");
+                                response = new UnauthorizedResponse("Refresh Token.");
                             }
                             else
                             {
@@ -121,12 +121,16 @@ namespace TodoProject
             // Database
             services.AddTransient<IUnitOfWork, UnitOfWork>();
 
-            // Services
+            // General Services
             services.AddTransient<IEmailGateway, SendGridEmailGateway>();
+
+            // Security Services
             services.AddTransient<ITokenService, TokenService>();
             services.AddTransient<IDeserializeToken, TokenService>();
             services.AddTransient<IAuthenticationService, AuthenticationService>();
             services.AddTransient<IPasswordService, PasswordService>();
+
+            // Account Services
             services.AddTransient<IUserService, UserService>();
 
             // Core Services
