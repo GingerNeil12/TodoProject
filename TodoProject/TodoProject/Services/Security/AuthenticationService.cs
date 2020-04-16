@@ -79,7 +79,7 @@ namespace TodoProject.Services.Security
                 return AuthenticationResult.ACCOUNT_LOCKED;
             }
 
-            if(user.RefreshTokenExpiry > DateTime.Now)
+            if(user.RefreshTokenExpiry < DateTime.Now)
             {
                 _logger.LogError($"Refresh Token Expired for: {model.Email}");
                 return AuthenticationResult.EXPIRED_TOKEN;

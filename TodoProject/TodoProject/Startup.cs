@@ -93,12 +93,13 @@ namespace TodoProject
                             {
                                 context.Response.Headers.Add("Refresh_Token", "true");
                                 response = new UnauthorizedResponse("Refresh Token.");
+                                var result = GetResponseBodyForTokenEvent(response);
+                                context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
+                                context.Response.ContentType = "application/json";
+                                context.Response.Body.WriteAsync(result, 0, result.Length);
+                                return Task.CompletedTask;
                             }
-                            else
-                            {
-                                response = new UnauthorizedResponse();
-                            }
-
+                            response = new UnauthorizedResponse();
                             var bodyData = GetResponseBodyForTokenEvent(response);
                             context.Response.StatusCode = (int)HttpStatusCode.Unauthorized;
                             context.Response.ContentType = "application/json";

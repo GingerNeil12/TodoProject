@@ -12,6 +12,11 @@ namespace TodoProject.Commands.Core
 
         private readonly ICategoryService _categoryService;
 
+        public UpdateCategoryCommand(ICategoryService categoryService)
+        {
+            _categoryService = categoryService;
+        }
+
         public async Task<ResponseMessage> RunAsync(UpdateCategoryModel model)
         {
             var result = await _categoryService.UpdateAsync(model);
